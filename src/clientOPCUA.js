@@ -34,6 +34,7 @@ async.series([
             });
            
           },
+    //session
           function (callback){
             client.createSession((err, session)=> {
                if (err) {
@@ -43,17 +44,19 @@ async.series([
                callback();
              });
            },
+    //reading variables       
            function (callback){ 
            setInterval(() => {
              the_session.read({nodeId: process.env.NODE_ONE,attributeId: AttributeIds.DataType}, (err, data)=> {
               if (!err){
-                console.log("This is it",data)
+                console.log("This is it",data.value)
               }
              })
            }, 1000)
            },
          
  ])
+
 // (async () => {
 //   await tmpOPCUA()
 // })();
