@@ -1,15 +1,15 @@
 const { OPCUAServer, Variant, DataType, StatusCodes} = require("node-opcua");
-const { add } = require("nodemon/lib/rules");
+require('dotenv').config();
 
 const server = new OPCUAServer({
-    port: 4334, // the port of the listening socket of the server
+    port: process.env.PORT, // the port of the listening socket of the server
     resourcePath: "/UA/MyLittleServer", 
     buildInfo: {
         productName: "MySampleServer1",
         buildNumber: "7658",
         buildDate: new Date(2014, 5, 2)
     }
-   //opc.tcp://<hostname>:4334/UA/MyLittleServer
+   //opc.tcp://<hostname>:port/UA/MyLittleServer
 });
 
 function after_init() {
