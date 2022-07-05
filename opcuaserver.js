@@ -1,5 +1,7 @@
 const { OPCUAServer, Variant, DataType } = require('node-opcua');
+const addNodes = require('./nodesOpcaua/nodeOne')
 const testNodes = require('../testNodes.json');
+
 async function main() {
   const server = new OPCUAServer({
     port: 4840,
