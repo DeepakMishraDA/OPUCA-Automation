@@ -30,4 +30,25 @@ async function main() {
         new Variant({ dataType: DataType.Double, value: nodeVariable }),
     },
   });
+  namespace.instantiateExclusiveLimitAlarm('ExclusiveLimitAlarmType', {
+    browseName: 'MyExclusiveAlarm',
+    conditionSource: device,
+    inputNode: alarmNode1,
+    lowLowLimit: -10.0,
+    lowLimit: 1.0,
+    highLimit: 10.0,
+    highHighLimit: 100.0,
+  });
+  setInterval(() => {
+    alarmNode1.setValueFromSource({ dataType: DataType.Double, value: 101.0 });
+    setTimeout(() => {
+      alarmNode1.setValueFromSource({ dataType: DataType.Double, value: 5.0 });
+    }, 40000);
+  }, 120000);
+  await server.start(function () {
+    console.log('Server is now listening... (press CTRL-C to stop)');
+    // console.log('port ', server.endpoints[0].port)
+  });
 }
+
+main();
