@@ -40,21 +40,32 @@ async.series([
                if (err) {
                 return;
                }
+               //console.log(session)
                the_session = session;
-               callback();
+               the_session.browse("RootFolder", function(err, browseResult) {
+                if (!err) {
+                  console.log("Browsing rootfolder: ", browseResult.references);
+                  for (let reference of browseResult.references) {
+                    console.log(reference.browseName, reference.nodeId);
+                  }
+                }
+                callback(err);
+              });
+               //callback();
              });
            },
     //reading variables       
            function (callback){ 
-           setInterval(() => {
-             the_session.read({nodeId: "ns=4;s=.S01.TLSpo.r_Messwert",
-             attributeId: AttributeIds.Value}, (err, data)=> {
-              if (!err){
-                console.log("This is it",data.value.value)
-              }
-             })
-           }, 1000)
+          //  setInterval(() => {
+          //    the_session.read({nodeId: "ns=4;s=.S01.TLSpo.r_Messwert",
+          //    attributeId: AttributeIds.Value}, (err, data)=> {
+          //     if (!err){
+          //       console.log("This is it",data.value.value)
+          //     }
+          //    })
+          //  }, 1000)
            },
+           
          
  ])
 
