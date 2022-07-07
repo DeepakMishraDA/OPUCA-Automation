@@ -11,17 +11,9 @@ async function clientObject() {
     client.on("connected", ()=>{
         console.log("Client has connected!")
     })
-    var the_session; 
-   client.createSession(async (err, session)=> {
-         session.read({nodeId: "ns=4;s=.S01.TLSpo.r_Messwert",
-        attributeId: AttributeIds.Value},
-        (err, data)=> {
-            if (!err){
-              console.log("This is it",data.value.value)
-            }
-        }) 
-      });
    
+   const session = await client.createSession();
+
     // const subscription = await session.createSubscription2({
     //     requestedPublishingInterval: 200,
     //   requestedMaxKeepAliveCount: 20,
@@ -35,5 +27,5 @@ async function clientObject() {
 }
 
 clientObject().then(data => {
-    console.log("this",data);
+   return
 })
