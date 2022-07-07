@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/client2opcua.js"
+    "start": "nodemon src/client2opcua.js",
+    "start2": "nodemon src/clientOPCUA.js"
   },
   "author": "",
   "license": "ISC",
