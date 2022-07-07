@@ -2,7 +2,7 @@ const { OPCUAClient, makeBrowsePath, AttributeIds} = require("node-opcua");
 const async = require('async');
 require('dotenv').config();
 
-const endpointUrl = process.env.ENDPOINT_URL2 ;
+const endpointUrl = process.env.ENDPOINT_URL ;
 const client = OPCUAClient.create({
                 endpointMustExist: false
             });
@@ -47,7 +47,8 @@ async.series([
     //reading variables       
            function (callback){ 
            setInterval(() => {
-             the_session.read({nodeId: "ns=4;s=|var|CODESYS Control for Raspberry Pi MC SL.Application.S01_.S01_T01_C001_AI",attributeId: AttributeIds.Value}, (err, data)=> {
+             the_session.read({nodeId: "ns=4;s=.S01.TLSpo.r_Messwert",
+             attributeId: AttributeIds.Value}, (err, data)=> {
               if (!err){
                 console.log("This is it",data.value.value)
               }
