@@ -1,4 +1,4 @@
-const { OPCUAServer, Variant, DataType } = require('node-opcua');
+const { OPCUAServer, Variant, DataType,StatusCodes } = require('node-opcua');
 const addNodes = require('./nodesOpcua/nodeOne');
 
 async function main() {
@@ -23,17 +23,18 @@ async function main() {
   namespace.addVariable({
     componentOf: device,
     browseName: 'alarmNode1',
-    dataType: 'Double',
+    dataType: 'Int32',
     nodeId: 'ns=1;s=AlarmNode1', //uuid()
     eventSourceOf: device,
     value: {
       get: () =>
-        new Variant({ dataType: DataType.Double, value: nodeVariable1 }),
+        new Variant({ dataType: DataType.Int32, value: nodeVariable1 }),
+      set: (variant) => {
+        nodeVariable1 = parseFloat(variant.value);
+          return StatusCodes.Good;
+      }
     },
-    set: (variant) => {
-      variable2 = parseFloat(variant.value);
-      return StatusCodes.Good;
-  }
+    
   });
   // namespace.instantiateExclusiveLimitAlarm('ExclusiveLimitAlarmType', {
   //   browseName: 'MyExclusiveAlarm',
