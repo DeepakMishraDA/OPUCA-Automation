@@ -1,4 +1,4 @@
-const { OPCUAClient, makeBrowsePath, AttributeIds} = require("node-opcua");
+const { OPCUAClient, makeBrowsePath, AttributeIds, DataType} = require("node-opcua");
 const async = require('async');
 require('dotenv').config();
 
@@ -54,6 +54,31 @@ async.series([
                //callback();
              });
            },
+//writing variables
+function(callback) {
+  var max_age = 0;
+      var nodesToWrite = [{
+           nodeId: "ns=1;s=AlarmNode1",
+           attributeId: AttributeIds.Value,
+           indexRange: null,
+           value: { 
+               value: { 
+                   dataType: DataType.Double,
+                    value: 34
+               }
+         }
+  }];
+ the_session.write(nodesToWrite, function(err,statusCode,diagnosticInfo) {
+      if (!err) {
+          console.log("write ok" );
+          console.log(diagnosticInfo);
+          console.log(statusCode);
+      }
+      callback(err);
+  });  
+
+
+},
     //reading variables       
            function (callback){ 
            setInterval(() => {
