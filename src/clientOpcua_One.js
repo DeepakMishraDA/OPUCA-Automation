@@ -1,4 +1,4 @@
-const { OPCUAClient, makeBrowsePath, AttributeIds, DataType} = require("node-opcua");
+const { OPCUAClient, makeBrowsePath, AttributeIds, DataType, StatusCodes} = require("node-opcua");
 const async = require('async');
 require('dotenv').config();
 
@@ -55,41 +55,38 @@ async.series([
              });
            },
 //writing variables
-function(callback) {
-  var max_age = 0;
-      var nodesToWrite = [{
-           nodeId: "ns=1;s=AlarmNode1",
-           attributeId: AttributeIds.Value,
-           indexRange: null,
-           value: { 
-               value: { 
-                   dataType: DataType.Double,
-                    value: 34
-               }
-         }
-  }];
- the_session.write(nodesToWrite, function(err,statusCode,diagnosticInfo) {
-      if (!err) {
-          console.log("write ok" );
-          console.log(diagnosticInfo);
-          console.log(statusCode);
-      }
-      callback(err);
-  });  
+function (callback) {
+  //var setPointTemperatureId = "ns=1;s=AlarmNode1";
+  let nodeToWrite = {
+    nodeId: "ns=1;s=AlarmNode1",
+    attributeIds:AttributeIds.Value,
+    value: /* DataValue */ {
+        sourceTimestamp: new Date(),
+        statusCode: StatusCodes.Good,// <==== 
+        value: /* Variant */ {
+             dataType: DataType.Int32,
+             value: 25
+        }
+    },
+}
 
-
+the_session.write(nodeToWrite);
+the_session.read({nodeId: "ns=1;s=AlarmNode1"}).then((data)=>{
+console.log(data)
+}
+)
 },
     //reading variables       
-           function (callback){ 
-           setInterval(() => {
-             the_session.read({nodeId: "ns=1;s=AlarmNode1",
-             attributeId: AttributeIds.Value}, (err, data)=> {
-              if (!err){
-                console.log(data);
-              }
-             })
-           }, 10000)
-           },
+          //  function (callback){ 
+          //  setInterval(() => {
+          //    the_session.read({nodeId: "ns=1;s=AlarmNode1",
+          //    attributeId: AttributeIds.Value}, (err, data)=> {
+          //     if (!err){
+          //       console.log(data);
+          //     }
+          //    })
+          //  }, 5000)
+          //  },
            
          
  ])
