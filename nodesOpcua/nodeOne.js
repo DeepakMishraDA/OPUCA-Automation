@@ -7,15 +7,23 @@ function addNodes(namespace, device) {
       }, 1000);
   
       namespace.addVariable({
+
         componentOf: device,
-        browseName: node.browseName,
-        dataType: 'Double',
-        nodeId: node.nodeId,
+    
+        nodeId: "ns=1;b=1020FFAA", // some opaque NodeId in namespace 4
+    
+        browseName: "MyVariable2",
+    
+        dataType: "Double",    
+    
         value: {
-          get: () =>
-            new Variant({ dataType: DataType.Double, value: nodeVariable }),
-        },
-      });
+            get: () => new Variant({dataType: DataType.Double, value: variable2 }),
+            set: (variant) => {
+                variable2 = parseFloat(variant.value);
+                return StatusCodes.Good;
+            }
+        }
+    });
     });
   }
 
