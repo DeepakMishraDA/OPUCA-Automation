@@ -1,11 +1,11 @@
-function addNodes(namespace, device) {
-    testNodes.nodes.map(node => {
-      let nodeVariable = node.startingValue;
+function addNodes(namespace, device, Variant, DataType) {
+    // testNodes.nodes.map(node => {
+    //   let nodeVariable = node.startingValue;
   
-      setInterval(() => {
-        nodeVariable += 2 * node.halfSecondIncrease;
-      }, 1000);
-  
+    //   setInterval(() => {
+    //     nodeVariable += 2 * node.halfSecondIncrease;
+    //   }, 1000);
+    const nodeVariable2 = 5;
       namespace.addVariable({
 
         componentOf: device,
@@ -17,14 +17,14 @@ function addNodes(namespace, device) {
         dataType: "Double",    
     
         value: {
-            get: () => new Variant({dataType: DataType.Double, value: variable2 }),
+            get: () => new Variant({dataType: DataType.Double, value: nodeVariable2 }),
             set: (variant) => {
                 variable2 = parseFloat(variant.value);
                 return StatusCodes.Good;
             }
         }
     });
-    });
+    //});
   }
 
 module.exports = addNodes
